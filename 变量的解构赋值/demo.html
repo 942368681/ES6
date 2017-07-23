@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//数组的解构赋值
+			/*
+				let a=1;
+				let b=2;
+				let b=3;
+				let [a,b,c]=[1,2,3];
+				console.log(a,b,c)  //1 2 3;
+			
+				
+				let [a,[[b],c]]=[1,[[2],3]];
+				console.log(a,b,c)  //1 2 3
+				
+				let [,,c]=[1,2,3];
+				console.log(c);  //3
+				
+				let [x]=[];
+				console.log(x);  //undefined
+				
+				let [y=1]=[];
+				console.log(y); //1,走默认值
+			*/
+			
+			//对象的解构赋值（先找同名属性，再赋变量，真正被赋值的是变量）
+			/*
+				变量名、属性名一致
+				let {a,b}={b:'bbb',a:'aaa'};
+				console.log(a,b);  //aaa bbb
+				
+				变量名、属性名不一致
+				let {a:b}={a:1};
+				console.log(b)  //1
+				console.log(a)  //报错
+			*/
+			
+			//基本类型的解构赋值
+			/*
+				let [a,b,c,d]='1234';
+				console.log(a,b,c,d)  //1 2 3 4
+				其实是右边字符串先被转化成类数组了
+				
+				let {length:len}='sun';
+				console.log(len);  //3
+				
+				let {toString:ts}=1;
+				console.log(ts);  //function toString()
+				//原理：
+					console.log(ts===Number.prototype.toString);  //true
+			
+				let {toString:bs}=true;
+				console.log(bs);  //function toString()
+				//原理：
+					console.log(bs===Boolean.prototype.toString);  //true
+					
+				null和undefined不能进行解构赋值，会报错
+			*/
+		</script>
+	</body>
+</html>

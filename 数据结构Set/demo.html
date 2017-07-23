@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//创建Set
+				const s=new Set([1,2,3]);
+				console.log(s);  //Set(3) {1, 2, 3}
+			//Set类的属性
+				console.log(s.size); //3
+			//Set类的方法
+				//添加
+					s.add('a').add('b').add('c');
+					console.log(s);
+				//删除
+					s.delete('a');
+					console.log(s);
+					console.log(s.delete('b'));  //true
+				//查看
+					console.log(s.has('a'));  //false
+					console.log(s.has('b'));  //false
+					console.log(s.has('c'));  //true
+				//清除
+					s.clear();
+					console.log(s);  //Set(0) {}
+				//遍历的四种方法
+					const s1=new Set(['a','b','c','d']);
+					console.log(s1.keys());		//SetIterator {"a", "b", "c", "d"}
+					console.log(s1.values());	//SetIterator {"a", "b", "c", "d"}
+					console.log(s1.entries());	//SetIterator {"a", "b", "c", "d"}
+					s1.forEach(function (value,key,set){
+						console.log(value+' hello');
+					});
+					console.log(s1);
+					
+			//验证Set中没有重复数据
+				const s2=new Set([1,2,3,4]);
+				console.log(s2);  //1 2 3 4 
+				s2.add(1);
+				console.log(s2);  //1 2 3 4
+				
+			//利用Set特性对数组进行去重
+				let arr=[1,2,2,3,4,4,4,4];
+				console.log(arr); //1 2 2 3 4 4 4 4
+				const s3=new Set(arr);
+				console.log(s3);  //1 2 3 4
+				arr.splice(0,arr.length);
+				s3.forEach(function (value,key,set){
+					arr.push(value);
+				});
+				console.log(arr);  //1 2 3 4
+		</script>
+	</body>
+</html>

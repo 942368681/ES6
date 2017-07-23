@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			/*
+				let:
+					声明变量（var类似）
+				const:
+					声明常量（常量为不可变化的量）
+				
+				let:
+					1.使用let声明的变量只在命令所在的代码块中有效
+					2.试用let声明的变量在域解析时不会被提升
+					3.let不允许在同一个作用域下声明已经存在的变量
+					4.暂时性死区
+				const:
+					1.使用const声明的常量只在命令所在的代码块中有效
+					2.试用const声明的常量在域解析时不会被提升
+					3.const不允许在同一个作用域下声明已经存在的常量
+					4.声明的时候必须赋值
+					5.const声明的常量，若常量是简单的数据类型，那么不可改变其值
+					  const声明的常量，若常量是对象，那么不可改变其引用，至于对象中的数据如何变化无所谓
+			*/
+			
+			//暂时性死区
+				let f=10;
+				function fn(){
+					f=7;
+					let f=2;
+				};
+				fn();//报错！
+		</script>
+	</body>
+</html>

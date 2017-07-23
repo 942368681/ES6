@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<button>1</button>
+		<button>2</button>
+		<button>3</button>
+		<button>4</button>
+		<button>5</button>
+		<script type="text/javascript">
+			/*点击弹出对应按钮索引值*/			
+			var btns=document.querySelectorAll('button');
+			//1  索引值方法
+			
+			/*for (var i=0;i<btns.length;i++) {
+				btns[i].index=i;
+				btns[i].onclick=function (){
+					alert(this.index);
+				};
+			}*/
+			
+			//2  闭包
+			
+			/*for (var i=0;i<btns.length;i++) {
+				(function (i){
+					btns[i].onclick=function (){
+						alert(i);
+					};
+				})(i)
+			}*/
+			
+			//3  let
+			
+			//循环语句是父作用域，循环体是子作用域
+			for (let i=0;i<btns.length;i++) {
+				btns[i].onclick=function (){
+					alert(i);
+				};
+			}
+			//console.log(i);//报错,循环外部拿不到i
+		</script>
+	</body>
+</html>
