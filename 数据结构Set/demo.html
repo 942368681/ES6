@@ -29,10 +29,16 @@
 				//遍历的四种方法
 					const s1=new Set(['a','b','c','d']);
 					console.log(s1.keys());		//SetIterator {"a", "b", "c", "d"}
+					
 					console.log(s1.values());	//SetIterator {"a", "b", "c", "d"}
+					
 					console.log(s1.entries());	//SetIterator {"a", "b", "c", "d"}
+					
 					s1.forEach(function (value,key,set){
+						//键值，键名，set本身
 						console.log(value+' hello');
+						console.log(key+' hi');
+						console.log(set);  //Set(4) {"a", "b", "c", "d"}
 					});
 					console.log(s1);
 					

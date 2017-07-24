@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//创建Map
+				const map=new Map([
+					['a',1],
+					['b',2]
+				]);
+				console.log(map);  //Map(2) {"a" => 1, "b" => 2}
+			//Map类的属性
+				console.log(map.size);  //2
+			//Map类的方法
+				//添加
+					map.set('c',3).set('d',4);
+					console.log(map);  //{"a" => 1, "b" => 2, "c" => 3, "d" => 4}
+				//查看（读取键值）
+					console.log(map.get('a'));  //1
+					console.log(map.get('e'));  //undefined
+				//删除
+					console.log(map.delete('d'));  //true
+					console.log(map);  //Map(3) {"a" => 1, "b" => 2, "c" => 3}
+					console.log(map.delete('d'));  //false
+					console.log(map);  //Map(3) {"a" => 1, "b" => 2, "c" => 3}
+				//查看（键是否存在当前Map中）
+					console.log(map.has('a'));  //true
+					console.log(map.has('d'));  //false
+				//全部清除
+					map.clear();
+					console.log(map);  //Map(0) {}
+				//遍历的四种方法
+					const map1=new Map([
+						['a',1],
+						['b',2],
+						['c',3],
+						['d',4]
+					]);
+					console.log(map1.keys());  //MapIterator {"a", "b", "c", "d"}
+				
+					console.log(map1.values());  //MapIterator {1, 2, 3, 4}
+					
+					console.log(map1.entries());  //MapIterator {"a" => 1, "b" => 2, "c" => 3, "d" => 4}
+					
+					map1.forEach(function (value,key,map){
+						//键值，键名，map本身
+						console.log(key+':'+value);
+						console.log(map1);  //Map(4) {"a" => 1, "b" => 2, "c" => 3, "d" => 4}
+					});
+					
+			//Map使用的注意事项：
+				//NaN不等于NaN,但在Map中认为NaN和NaN是同一个键
+					const map2=new Map();
+					map2.set(NaN,10).set(NaN,100);
+					console.log(map2);  //Map(1) {NaN => 100}
+				
+				//key是对象的情况,引用（内存地址）不一样，就视为是两个不同的键
+					map2.clear();
+					map2.set({},'x').set({},'y');
+					console.log(map2);  //Map(2) {Object {} => "x", Object {} => "y"}
+					
+				//在Map中key的排列顺序是按照添加顺序排列的
+					
+		</script>
+	</body>
+</html>
