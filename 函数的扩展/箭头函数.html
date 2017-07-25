@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			/*
+				使用“箭头” (=>) 定义函数
+				
+				语法：
+					需要使用多个参数或者没有参数时，要有()
+						const fn=(a,b)=>a+b;
+					只有一个参数时，可以不要()
+						const fn=a=>a;
+					函数体有多行代码时
+						const fn=(a,b)=>{
+							a=a*2;
+							b=b*2;
+							return a+b;
+						};
+					返回值是一个对象的时候，需要用()包裹返回值
+						const fn=(a,b)=>({a,b});
+					
+				注意事项：
+					1.箭头函数体内没有this对象，所以其内部this就是定义时所在的环境的对象
+					    而不是使用时所在的环境的对象
+					2.不能给箭头函数使用改变this指向的方法(call,apply,bind)
+					3.箭头函数体内也没有arguments对象，如果要用，用rest
+					4.不能new，也就是不能当作构造函数，否则报错
+					5.不能当作Generator函数
+			*/
+			const fn=a=>a;
+			console.log(fn(1));  //1
+			
+			var arr=[5,4,8,9,2,4];
+			arr.sort((a,b)=>a-b);
+			console.log(arr);  //[2, 4, 4, 5, 8, 9]
+		</script>
+	</body>
+</html>

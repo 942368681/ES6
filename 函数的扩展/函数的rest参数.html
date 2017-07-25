@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			/*
+				rest
+					参数形式为("...变量名")，用于获取函数的多余参数，这样就不需要使用
+					arguments对象了。（ES6也不提倡使用arguments对象）
+					rest参数搭配的变量是一个数组，该变量将多余的参数放入数组中
+			*/
+			/*
+				function sum(){
+					var args=arguments;
+					var n=0;
+					for (var i=0;i<args.length;i++) {
+						n+=args[i];
+					}
+					console.log(n);
+				};
+				sum(1,2,3,4,5);  //15
+			*/
+			/*
+				function sum(...arr){
+					var n=0;
+					for (var i=0;i<arr.length;i++) {
+						n+=arr[i];
+					}
+					console.log(n);
+				};
+				sum(1,2,3,4,5);  //15
+			*/
+			/*
+				//还可以在前面传入别的参数，但是后面不能传参数！（报错）
+				function sum(a,...arr){
+					var n=a;
+					for (var i=0;i<arr.length;i++) {
+						n+=arr[i];
+					}
+					console.log(n);
+				};
+				sum(10,1,2,3,4,5);  //25
+			*/
+		</script>
+	</body>
+</html>
