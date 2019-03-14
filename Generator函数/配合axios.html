@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    // https://api.github.com/users/sfl
+    
+    function * gen () {
+        let userName = yield 'sfl';
+        yield axios.get(`https://api.github.com/users/${userName}`);
+    };
+    let g1 = gen();
+
+    let userName = g1.next().value;
+
+    g1.next(userName).value.then(res => {
+        console.log(res);
+    });
+</script>
+</html>

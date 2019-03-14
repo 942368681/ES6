@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /* 
+        函数
+        解决异步问题，解决深度嵌套
+    */
+    function * show() {
+        yield 'a';
+        yield 'b';
+        return 1;
+    };
+    let s1 = show();
+
+    // 手动调用
+    // console.log(s1.next());
+    // console.log(s1.next());
+    // console.log(s1.next());
+
+    // 配合for of循环
+    // for (let val of s1) {
+    //     console.log(val);
+    // }
+
+    // 配合解构
+    // let [a, b] = s1;
+    // console.log(a, b);
+
+    // 配合扩展运算符
+    // console.log(...s1);
+
+    // 配合Array from
+    // console.log(Array.from(s1));
+</script>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 同步请求（串联）
+    // async function fn () {
+    //     let t1 = +new Date();
+    //     const a = await request("aaa");
+    //     const b = await request("bbb");
+    //     const c = await request("ccc");
+    //     let t2 = +new Date();
+    //     console.log(a, b, c);
+    //     console.log(`耗时：${(t2 - t1)/1000}s`);
+    // };
+
+    // 异步请求（无关联，并发）
+    async function fn () {
+        let t1 = +new Date();
+        let [a, b, c] = await Promise.all([
+            request("aaa"),
+            request("bbb"),
+            request("ccc")
+        ]);
+        let t2 = +new Date();
+        console.log(a, b, c);
+        console.log(`耗时：${(t2 - t1)/1000}s`);
+    };
+
+    // 请求方法封装
+    function request (param) {
+        let result;
+        return new Promise((resolve, reject) => {
+            // 异步请求逻辑
+            setTimeout(() => {
+                if (param === "aaa") {
+                    reject('error');
+                } else {
+                    resolve('success');
+                }
+            }, 1000);
+        }).then(res => {
+            return res;
+        }).catch(err => {
+            return err;
+        });
+    };
+
+    fn();
+</script>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /* 
+        export和import命令具有提升效果，会提升到整个模块的头部，首先执行，不能放在代码块内
+        // 下面写法报错
+        if (...) {
+            import xxx from './xxx';
+        }
+        引入import()函数，完成动态加载
+        import()返回一个 Promise 对象
+    */
+
+    // 几个应用场景
+    /* 
+        一、按需加载
+        下面代码中，import()方法放在click事件的监听函数之中，只有用户点击了按钮，才会加载这个模块
+    */
+    button.addEventListener('click', event => {
+        import('./box.js')
+            .then(box => {
+                box.open();
+            })
+            .catch(error => {
+                /* Error handling */
+            })
+    });
+    /* 
+        二、条件加载
+        import()可以放在if代码块，根据不同的情况，加载不同的模块
+    */
+    if (condition) {
+        import('moduleA').then(() => {
+            //...
+        });
+    } else {
+        import('moduleB').then(() => {
+            //...
+        });
+    }
+    /* 
+        三、动态的模块路径
+        import()允许模块路径动态生成。根据函数getUrl的返回结果，加载不同的模块
+    */
+    import(getUrl()).then(() => {
+        //...
+    });
+</script>
+
+</html>

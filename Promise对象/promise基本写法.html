@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+    let a = 1;
+    let b = 1;
+    let promise = new Promise((resolve, reject) => {
+        // 异步逻辑
+        setTimeout(() => {
+            a = 10;
+            if (a === 10) {
+                resolve('成功');
+            } else {
+                reject('失败');
+            }
+        }, 2000);
+    });
+
+    // then接收两个回调函数，代表成功回调和失败回调
+    /* promise.then(res => {
+        // 成功回调，执行resolve
+        console.log(res);
+    }, err => {
+        // 失败回调，执行reject
+        console.log(err);
+    }); */
+
+    // 也可以使用catch捕获错误
+    promise.then(res => {
+        console.log(res);
+    }).catch(err => {
+        console.log(err);
+    });
+
+    // 链式调用写法
+    new Promise((resolve, reject) => {
+        setTimeout(() => {
+            b = 10;
+            if (b === 10) {
+                resolve('成功');
+            } else {
+                reject('失败');
+            }
+        }, 2000);
+    }).then(res => {
+        console.log(res);
+    }).catch(err => {
+        console.log(err);
+    });
+</script>
+</html>
