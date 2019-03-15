@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    request({
+        url: "https://api.github.com/users/sfl",
+        method: "GET",
+        params: {
+            type: 1
+        }
+    });
+    // 请求方法封装
+    function request(param) {
+        /* return new Promise((resolve, reject) => {
+            // 异步请求逻辑
+            fetch('http://example.com/movies.json', {})
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (myJson) {
+                    return myJson
+                });
+        }).then(res => {
+            return res;
+        }).catch(err => {
+            return err;
+        }); */
+
+        fetch('http://example.com/movies.json', {})
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (myJson) {
+                return myJson
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+</script>
+
+</html>
