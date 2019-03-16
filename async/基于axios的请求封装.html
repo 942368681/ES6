@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    // 全局地址
+    const BASE_URL = "https://api.github.com/";
+    // 请求头
+    const HEADERS = {
+        "Content-type": "application/json"
+    };
+
+    // 同步请求（串联）
+    /* async function fn () {
+        let t1 = +new Date();
+        const a = await request({
+            method: "GET",
+            url: "users/sfl",
+            data: {},
+            notNeedToken: true
+        });
+        const b = await request({
+            method: "GET",
+            url: "users/kobe",
+            data: {},
+            notNeedToken: true
+        });
+        const c = await request({
+            method: "GET",
+            url: "users/curry",
+            data: {},
+            notNeedToken: true
+        });
+        let t2 = +new Date();
+        console.log(a, b, c);
+        console.log(`耗时：${(t2 - t1)/1000}s`);
+    }; */
+
+    // 异步请求（无关联，并发）
+    async function fn () {
+        let t1 = +new Date();
+        let [a, b, c] = await Promise.all([
+            request({
+                method: "GET",
+                url: "users/sfl",
+                data: {},
+                notNeedToken: true
+            }),
+            request({
+                method: "GET",
+                url: "users/kobe",
+                data: {},
+                notNeedToken: true
+            }),
+            request({
+                method: "GET",
+                url: "users/curry",
+                data: {},
+                notNeedToken: true
+            })
+        ]);
+        let t2 = +new Date();
+        console.log(a, b, c);
+        console.log(`耗时：${(t2 - t1)/1000}s`);
+    };
+
+    // 请求方法封装
+    function request (params) {
+        return new Promise((resolve, reject) => {
+            let url = params.useOwnUrl ? params.url : BASE_URL + params.url;
+            let headers;
+            if (params.notNeedToken) {
+                headers = HEADERS;
+            } else {
+                headers = {token: params.token, ...HEADERS};
+            }
+            // 异步请求逻辑
+            axios({
+                method: params.method || "GET",
+                url,
+                data: {...params.data},
+                timeout: params.timeout || 10000,
+                headers
+            })
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            });
+        });
+    };
+
+    fn();
+
+    /* 
+        promise
+            promise比较简单，也是最常用的，主要就是将原来的用回调函数的异步编程方法转成用relsove和reject触发事件， 用then和catch捕获成功或者失败的状态执行相应代码的异步编程的方法。
+
+        async函数
+            简单的说async函数就相当于自执行的Generator函数，相当于自带一个状态机，在await的部分等待返回， 返回后自动执行下一步。而且相较于Promise,async的优越性就是把每次异步返回的结果从then中拿到最外层的方法中，不需要链式调用，只要用同步的写法就可以了。更加直观而且，更适合处理并发调用的问题。但是async必须以一个Promise对象开始 ，所以async通常是和Promise结合使用的。
+        
+        总的来说，async和generator函数主要就是为了解决异步的并发调用使用的 ，直接将参数从then里取出来，相比promise的链式调用，传参更加方便，异步顺序更加清晰。
+    */
+</script>
+</html>
