@@ -48,28 +48,27 @@
     // 异步请求（无关联，并发）
     async function fn () {
         let t1 = +new Date();
-        let [a, b, c] = await Promise.all([
-            request({
+        let p1 = request({
                 method: "GET",
                 url: "users/sfl",
                 data: {},
                 notNeedToken: true
-            }),
-            request({
+            });
+        let p2 = request({
                 method: "GET",
                 url: "users/kobe",
                 data: {},
                 notNeedToken: true
-            }),
-            request({
+            });
+        let p3 = request({
                 method: "GET",
                 url: "users/curry",
                 data: {},
                 notNeedToken: true
-            })
-        ]);
+            });
+        [p1, p2, p3] = await Promise.all([p1, p2, p3]);
         let t2 = +new Date();
-        console.log(a, b, c);
+        console.log(p1, p2, p3);
         console.log(`耗时：${(t2 - t1)/1000}s`);
     };
 

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /* 
+        async用来表示函数是异步的，定义的函数会返回一个promise对象，可以使用then方法添加回调函数。
+        await 可以理解为是 async wait 的简写。await 必须出现在 async 函数内部，不能单独使用。
+        await 后面可以跟任何的JS 表达式。
+        虽然说 await 可以等很多类型的东西，但是它最主要的意图是用来等待 Promise 对象的状态被 resolved。
+        如果await的是 promise对象会造成异步函数停止执行并且等待 promise 的解决,如果等的是正常的表达式则立即执行。
+    */
+    function sleep(second) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject('error');
+            }, second);
+        })
+    }
+
+    async function errorDemo() {
+        try {
+            let result = await sleep(1000);
+            console.log(result);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    errorDemo();
+</script>
+
+</html>
