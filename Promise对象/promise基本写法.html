@@ -55,5 +55,34 @@
     }).catch(err => {
         console.log(err);
     });
+
+    // 立即执行性，返回状态
+    const status = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            b = 10;
+            if (b === 10) {
+                resolve('成功');
+            } else {
+                reject('失败');
+            }
+        }, 2000);
+    })
+    console.log(status);
+
+    
+    async function f1 () {
+        const aaa = await new Promise((resolve, reject) => {
+            setTimeout(() => {
+                b = 10;
+                if (b === 10) {
+                    resolve('成功');
+                } else {
+                    reject('失败');
+                }
+            }, 2000);
+        })
+        console.log(aaa);
+    };
+    f1();
 </script>
 </html>
