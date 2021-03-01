@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    class MyPromise {
+        callbacks = [];
+        state = 'pending'; // fulfilled rejected
+        value = undefined;
+        constructor(fn) {
+            fn(this._resolve.bind(this), this._reject.bind(this));
+        };
+        _handle(obj) {
+            if (this.state === 'pending') {
+                this.callbacks.push(obj);
+                return;
+            }
+            let cb = this.state === 'fulfilled' ? obj.onFulfilled : obj.onRejected;
+            if (!cb) {
+                cb = this.state === 'fulfilled' ? obj.resolve : obj.reject;
+                cb(this.value);
+                return;
+            }
+            try {
+                const ret = cb(this.value);
+                this.state === 'fulfilled' ? obj.resolve(ret) : obj.reject(ret);
+            } catch (error) {
+                obj.reject(error);
+            }
+        };
+        _resolve(value) {
+            if (value && (typeof value === 'object' || typeof value === 'function')) {
+                const then = value.then;
+                if (typeof then === 'function') {
+                    then.call(value, this._resolve.bind(this));
+                }
+            }
+            this.value = value;
+            this.state = 'fulfilled';
+            this.callbacks.forEach(obj => {
+                this._handle(obj);
+            });
+        };
+        _reject(error) {
+            this.value = error;
+            this.state = 'rejected';
+            this.callbacks.forEach(obj => {
+                this._handle(obj);
+            });
+        };
+        then(onFulfilled, onRejected) {
+            return new MyPromise((resolve, reject) => {
+                this._handle({
+                    onFulfilled: onFulfilled || null,
+                    onRejected: onRejected || null,
+                    resolve: resolve,
+                    reject: reject
+                });
+            });
+        };
+        catch (onRejected) {
+            return this.then(null, onRejected);
+        };
+        finally(onDone) {
+            let P = this.constructor;
+            return this.then(
+                value => P.resolve(onDone()).then(() => {
+                    return value;
+                }),
+                reason => P.resolve(onDone()).then(() => {
+                    throw reason;
+                })
+            )
+        };
+        static resolve(value) {
+            if (value && value instanceof Promise) { // promise
+                return value;
+            } else if (value && typeof value === 'object' && typeof value.then === 'function') { // thenable
+                return new MyPromise((resolve) => {
+                    value.then(resolve);
+                });
+            } else if (value) {
+                return new MyPromise((resolve) => {
+                    resolve(value);
+                });
+            } else {
+                return new MyPromise((resolve) => {
+                    resolve();
+                });
+            }
+        }
+        static reject(error) {
+            if (error && typeof error === 'object' && typeof error.then === 'function') {
+                return new MyPromise((resolve, reject) => {
+                    error.then(reject);
+                });
+            } else {
+                return new MyPromise((resolve, reject) => {
+                    reject(error);
+                });
+            }
+        };
+        static all(promises) {
+            return new MyPromise((resolve, reject) => {
+                let num = 0;
+                let arr = [];
+                let len = promises.length;
+                promises.forEach((p, i) => {
+                    MyPromise.resolve(p).then(
+                        value => {
+                            num++;
+                            arr[i] = value;
+                            if (len === num) {
+                                resolve(arr);
+                            }
+                        },
+                        error => {
+                            reject(error);
+                        }
+                    )
+                });
+            });
+        };
+        static race(promises) {
+            return new Promise((resolve, reject) => {
+                for (let index = 0; index < promises.length; index++) {
+                    const p = promises[index];
+                    Promise.resolve(p).then(
+                        value => {
+                            resolve(value);
+                        },
+                        error => {
+                            reject(error);
+                        }
+                    )
+                }
+            });
+        };
+    }
+
+    Promise.fakeRace = function (promises) {
+        return new Promise((resolve, reject) => {
+            for (let index = 0; index < promises.length; index++) {
+                const p = promises[index];
+                Promise.resolve(p).then(
+                    value => {
+                        resolve(value);
+                    },
+                    error => {
+                        reject(error);
+                    }
+                )
+            }
+        });
+    }
+
+    // let p = new MyPromise(resolve => {
+    //     console.log('同步执行');
+    //     setTimeout(() => {
+    //         resolve('同步执行');
+    //     }, 2000);
+    // }).then(tip => {
+    //     console.log('then1', tip);
+    //     return tip;
+    // }).then(tip => {
+    //     console.log('then2', tip);
+    // });
+
+    // setTimeout(() => {
+    //     p.then(tip => {
+    //         console.log('then3', tip);
+    //     })
+    // }, 5000);
+
+    // let thenable = {
+    //     then: function (resolve) {
+    //         resolve(42);
+    //     }
+    // };
+
+    // let p1 = MyPromise.resolve(thenable);
+    // p1.then(function (value) {
+    //     console.log(value); // 42
+    // });
+
+    const p1 = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(123123123);
+        }, 1000);
+    });
+    const p2 = new Promise(resolve => {
+        setTimeout(() => {
+            resolve(2);
+        }, 3000);
+    });
+
+    Promise.fakeRace([p1, p2])
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+</script>
+
+</html>
